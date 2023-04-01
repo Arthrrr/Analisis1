@@ -2,3 +2,14 @@ body{
     background: #202020;
     color: white;
 }
+
+
+.list-group{
+    margin: 10px 125px 10px 125px;
+}
+
+.saldo-navbar {
+    margin: 15px 20px 0px 20px ;
+
+}
+
