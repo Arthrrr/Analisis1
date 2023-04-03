@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Ingresar</title>
+
+        
+        <link rel="stylesheet" href="../CSS/usuario.css">
+                
+        
+        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+                        
+    </head>
+    <body>
+        <section class="container forms">
+            <div class="form login">
+                <div class="form-content">
+                    <header>Iniciar Sesión</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input type="email" id="email" name="email" placeholder="Correo Electronico" class="input" >
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" id="password" name="password" placeholder="Contraseña" class="password" >
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="field button-field">
+                            <button type="submit" id="login" name="login" value="login" >Iniciar Sesión</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Aun no tiene cuenta? <a href="#" class="link signup-link">Registrarme</a></span>
+                    </div>
+                </div>
+
+
+            </div>
+
+            
+
+            <div class="form signup">
+                <div class="form-content">
+                    <header>Registrarse</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input type="text" placeholder="Nombre de Usuario" class="input" id="userName">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="email" placeholder="Correo Electronico" class="input" id="email">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Contraseña" class="password" id="password">
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="field button-field">
+                            
+                            <button type="submit" id="signUp" name="signup-submit" value="signup">Registrarse</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Ya tiene una cuenta? <a href="#" class="link login-link">Iniciar Sesión</a></span>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </section>
+
+        
+        <script src="../javascript/script.js"></script>
+    </body>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+        import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.19.2/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyC8NaDQoTjkty-deWs6U5iGR6dpnpcHV2w",
+                authDomain: "avance2-ebf8e.firebaseapp.com",
+                projectId: "avance2-ebf8e",
+                storageBucket: "avance2-ebf8e.appspot.com",
+                messagingSenderId: "603587439701",
+                appId: "1:603587439701:web:d75a25ecf609264bf538dc"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        var userName = document.getElementById('userName').value;
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+
+        signUp.addEventListener('click',(e) => {
+            createUserWithEmailAndPassword(auth, email.value, password.value)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                set(ref(database, 'usuarios/' + user.uid), {
+                    userName: userName, 
+                    email: email,
+                })
+                alert('Usuario creado!')
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+
+                alert(errorMessage)
+            });
+        });
+
+        login.addEventListener('click',(e)=> {
+
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                const dt = new Date();
+
+                update(ref(database, 'usuarios/' + user.uid), {
+                    last_login: dt,
+                })
+
+                alert('sesion iniciada');
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                alert(errorMessage);
+            });
+        });
+      </script> 
+
+
+</html>

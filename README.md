@@ -3,5 +3,5 @@
 Entrega del segundo avance del proyecto
 
 Arthur Jimenez Ruiz
-Gerald 
-Sofia
+Gerald Rodriguez Obando
+Sofia Ramirez Alcazar
